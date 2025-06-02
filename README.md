@@ -1,9 +1,7 @@
-___
-
 ```markdown
 # Retrieval-Augmented Generation (RAG) App — ShyftLabs AI Engineer Take-Home Assignment
 
-___
+---
 
 ## What This App Does
 

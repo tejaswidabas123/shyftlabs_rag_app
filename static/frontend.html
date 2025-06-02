@@ -1,0 +1,77 @@
+<!-- frontend.html -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>RAG App — Interactive Q&A</title>
+    <style>
+        /* Basic styling for the page */
+        body { 
+            font-family: Arial, sans-serif; 
+            padding: 20px; 
+            background-color: #f8f8f8; 
+        }
+
+        /* Response box styling */
+        #response { 
+            white-space: pre-wrap; 
+            background: #fff; 
+            padding: 10px; 
+            border: 1px solid #ccc; 
+            margin-top: 10px; 
+            height: 300px; 
+            overflow-y: auto; 
+            font-size: 16px; 
+        }
+
+        /* Button styling */
+        button { 
+            padding: 10px 15px; 
+            font-size: 16px; 
+            cursor: pointer; 
+            margin-left: 10px; 
+        }
+
+        /* Input field styling */
+        input { 
+            padding: 10px; 
+            font-size: 16px; 
+            width: 400px; 
+        }
+    </style>
+</head>
+<body>
+    <h1>RAG App — Interactive Q&A</h1>
+
+    <!-- Input field for user query -->
+    <input type="text" id="queryInput" placeholder="Enter your question" />
+    <button onclick="ask()">Ask</button>
+
+    <!-- Response will stream here -->
+    <div id="response">Response will appear here...</div>
+
+    <script>
+        // Function to handle Ask button click
+        async function ask() {
+            const query = document.getElementById("queryInput").value;
+            const responseDiv = document.getElementById("response");
+            responseDiv.innerText = "Loading...";
+
+            // Call the /stream_answer endpoint
+            const response = await fetch(`/stream_answer?query=${encodeURIComponent(query)}`);
+            const reader = response.body.getReader();
+            const decoder = new TextDecoder();
+            responseDiv.innerText = "";
+
+            // Read and stream response token by token
+            while (true) {
+                const { done, value } = await reader.read();
+                if (done) break;
+                responseDiv.innerText += decoder.decode(value);
+                responseDiv.scrollTop = responseDiv.scrollHeight;
+            }
+        }
+    </script>
+</body>
+</html>

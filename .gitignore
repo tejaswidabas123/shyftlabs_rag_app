@@ -1,0 +1,34 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.pkl
+*.sqlite3
+
+# Virtual environment
+venv/
+.env/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Chroma DB
+chroma_db/
+
+# Model weights / cache
+*.safetensors
+*.bin
+huggingface_hub/
+transformers_cache/
+datasets_cache/
+
+# VSCode
+.vscode/
+
+# Logs
+*.log
+
+# Frontend
+*.html~  # backup temp files
